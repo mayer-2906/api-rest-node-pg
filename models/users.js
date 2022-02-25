@@ -1,28 +1,28 @@
 const client = require('../database/config')
 
-async function User(){
+//async function User(){
+//
+//    try {
+//        
+//        //await client.connect()
+//
+//        return {
+//            client,
+//            all
+//        };
+//
+//    } catch (error) {
+//        console.log(error);
+//        throw new Error('Error inicializando la base de datos');
+//    }
+//
+//}
 
-    try {
-        
-        await client.connect()
-
-        return {
-            client,
-            all
-        };
-
-    } catch (error) {
-        console.log(error);
-        throw new Error('Error inicializando la base de datos');
-    }
-
-}
-
-async function all(){
+async function allUsers(){
 
     const res = await client.query('SELECT * FROM gestion.users')
 
-    client.end()
+    //client.end()
     return {
         count: res.rowCount,
         users: res.rows
@@ -30,5 +30,6 @@ async function all(){
 }
 
 module.exports = {
-    User
+    //User,
+    allUsers
 };

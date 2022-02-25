@@ -1,14 +1,14 @@
 const { response, request} = require('express')
 
-const { User } = require('../models/users')
+const { allUsers } = require('../models/users')
 
 const getUsers = async(req = request, res = response) => {
     
     try {
 
-        const user = await User();
+        //const user = await User();
 
-        const { count, users } = await user.all();
+        const { count, users } = await allUsers();
         
         return res.json({
             count, 

@@ -1,4 +1,5 @@
-const express      = require('express')
+const express      = require('express');
+const client = require('../database/config')
 
 class Server {
 
@@ -14,6 +15,9 @@ class Server {
         // Middlewares
         this.middlewares();
 
+        //inicializamos la base de datos
+        this.dbConection();
+
         //App Routes
         this.routes();
     }
@@ -21,6 +25,17 @@ class Server {
     middlewares(){
         // Lectura y parseo del body
         this.app.use(express.json())
+    }
+
+    async dbConection (){
+
+        try{            
+            await client.connect();
+        }catch(error){
+            console.log(error);
+            throw new Error('Error inicializando la base de datos');
+        }
+        
     }
 
     routes(){
