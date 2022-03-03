@@ -20,7 +20,7 @@ const client = require('../database/config')
 
 async function allUsers(){
 
-    const res = await client.query('SELECT * FROM gestion.users')
+    const res = await client.query('SELECT * FROM users')
 
     //client.end()
     return {
