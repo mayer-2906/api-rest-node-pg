@@ -1,6 +1,7 @@
 const express      = require('express');
 const client = require('../database/config')
 
+
 class Server {
 
     constructor(){
@@ -9,7 +10,9 @@ class Server {
 
         // Routes
         this.paths = {
-            users: '/api/users'
+            users: '/api/users',
+            roles:'/api/roles',
+
         }
 
         // Middlewares
@@ -24,7 +27,9 @@ class Server {
 
     middlewares(){
         // Lectura y parseo del body
-        this.app.use(express.json())
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({extended:  false}));
+
     }
 
     async dbConection (){
@@ -40,6 +45,8 @@ class Server {
 
     routes(){
         this.app.use(this.paths.users, require('../routes/users'))
+        this.app.use(this.paths.roles, 
+            require('../routes/roles'))
     }
 
     listen(){
