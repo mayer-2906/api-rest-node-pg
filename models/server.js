@@ -1,6 +1,7 @@
 const express      = require('express');
 const client = require('../database/config')
 
+
 class Server {
 
     constructor(){
@@ -9,10 +10,18 @@ class Server {
 
         // Routes
         this.paths = {
+<<<<<<< HEAD
             users: '/api/users',
             care_plan: '/api/care_plan',
             clients: '/api/clients',
             appointments: '/api/appointments'
+=======
+
+            users: '/api/users',
+            roles:'/api/roles',
+            usersclients: '/api/usersclients'
+
+>>>>>>> 0c87448a830faa4dd72f531992b29836cac5f909
         }
 
         // Middlewares
@@ -27,7 +36,9 @@ class Server {
 
     middlewares(){
         // Lectura y parseo del body
-        this.app.use(express.json())
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({extended:  false}));
+
     }
 
     async dbConection (){
@@ -42,11 +53,17 @@ class Server {
     }
 
     routes(){
+
         this.app.use(this.paths.users, require('../routes/users'))
+<<<<<<< HEAD
         this.app.use(this.paths.care_plan, require('../routes/care_plan_routes'))
         this.app.use(this.paths.clients, require('../routes/clients_routes'))
         this.app.use(this.paths.appointments, require('../routes/appointments_routes'))
 
+=======
+        this.app.use(this.paths.roles, require('../routes/roles'))
+        this.app.use(this.paths.usersclients, require('../routes/usersclients'))
+>>>>>>> 0c87448a830faa4dd72f531992b29836cac5f909
     }
 
     listen(){
