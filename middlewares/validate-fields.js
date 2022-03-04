@@ -28,6 +28,10 @@ const validateRol = (req, resp=response, next) => {
   next();
 }
 
+const validateIsPatient = () => {
+  
+}
+
 module.exports = {
   validateFields,
   validateRol

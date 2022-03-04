@@ -39,7 +39,7 @@ const updateCare_Plan = async (id, name, date, status) => {
 
   try{
     
-    const res = await client.query(`UPDATE care_plan SET name='${name}', date='${date}' , status='${status}' WHERE id=${id} RETURNING *`)
+    const res = await client.query(`UPDATE care_plan SET name='${name}', date='${date}', status='${status}' WHERE id=${id} RETURNING *`)
     console.log(`soy la respuesta: ${res}`);
     return{
         count: res.rowCount,

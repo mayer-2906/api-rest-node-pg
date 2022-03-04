@@ -10,6 +10,7 @@ const { getCarePlans, addCarePlans, updateCarePlan, deleteCarePlan} = require('.
 const router = Router();
 
 router.get('/', getCarePlans)
+
 router.post('/set',
   [    
   check('name', 'El nombre es obligatorio').not().isEmpty(),
@@ -21,7 +22,7 @@ router.put('/update/:id',
   [
     check('name', 'El nombre es obligatorio').isString(),
     check('date', 'Debe ser una fecha valida').isDate(),
-    check('status', 'El status es obligatorio').isBoolean(),
+    check('status', 'El status debe ser un boolean').isBoolean(),
     validateFields
   ],
   updateCarePlan

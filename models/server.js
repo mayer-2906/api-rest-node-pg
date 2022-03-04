@@ -10,7 +10,9 @@ class Server {
         // Routes
         this.paths = {
             users: '/api/users',
-            care_plan: '/api/care_plan'
+            care_plan: '/api/care_plan',
+            clients: '/api/clients',
+            appointments: '/api/appointments'
         }
 
         // Middlewares
@@ -42,6 +44,9 @@ class Server {
     routes(){
         this.app.use(this.paths.users, require('../routes/users'))
         this.app.use(this.paths.care_plan, require('../routes/care_plan_routes'))
+        this.app.use(this.paths.clients, require('../routes/clients_routes'))
+        this.app.use(this.paths.appointments, require('../routes/appointments_routes'))
+
     }
 
     listen(){
