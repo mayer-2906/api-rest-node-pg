@@ -13,7 +13,7 @@ async function allUsers() {
 
     const res = await client.query('SELECT * FROM users')
 
-    //client.end()
+   
     return {
         count: res.rowCount,
         users: res.rows
@@ -39,8 +39,6 @@ async function user(id) {
 
     }
 
-
-
 }
 
 
@@ -51,7 +49,6 @@ async function user(id) {
 
 async function deleteUserByID(id) {
 
-  
 
     try {
 
@@ -60,21 +57,26 @@ async function deleteUserByID(id) {
 
     } catch (error) {
 
-        console.log(error.detail) 
-        
+        console.log(error.detail)
+
 
     }
 }
 
 
-async function addUser(name, last_nam, email, password, status){
+/** 
+* @param req.body name, last_nam, email, password, status, id_rol 
+* @return Response query
+*/
 
-   const api_token = uuid.v4()
+async function addUser(name, last_nam, email, password, status, id_rol) {
+
+    const api_token = uuid.v4()
 
     try {
 
-        return await client.query('INSERT INTO roles (name, last_name, name, last_nam, email, password, api_token, status) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, last_nam,
-        email, password, api_token, status]);
+        return await client.query('INSERT INTO users (name, last_name, email, password, api_token, status, id_rol) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [name, last_nam,
+            email, password, api_token, status, id_rol]);
 
     } catch (error) {
 
@@ -84,9 +86,29 @@ async function addUser(name, last_nam, email, password, status){
 
 }
 
+
+/** 
+* @param  req.params.id name, last_nam, email, password, status, id_rol 
+* @return Response query
+*/
+
+async function updateeUserByID(name, last_name, email, password, status, id_rol, id) {
+
+    try {
+        return await client.query('UPDATE users SET name = $1, last_name = $2, email = $3, password = $4, status = $5, id_rol = $6 WHERE id = $7 RETURNING *', [name, last_name, email, password, status, id_rol, id]);
+        
+    } catch (error) {
+        
+        console.log(error)
+    }
+
+}
+
+
 module.exports = {
     user,
     allUsers,
     deleteUserByID,
-    addUser
+    addUser,
+    updateeUserByID
 };

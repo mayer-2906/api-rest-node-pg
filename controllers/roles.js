@@ -1,7 +1,4 @@
 const { response, request } = require('express');
-const { type } = require('express/lib/response');
-const { rows } = require('pg/lib/defaults');
-const client = require('../database/config')
 const { allRoles, addRoles, RolById, deleteRolByID, updateeRolByID } = require('../models/roles')
 
 

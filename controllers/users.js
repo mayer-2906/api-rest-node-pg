@@ -1,5 +1,5 @@
 const { response, request } = require('express')
-const { allUsers, user, deleteUserByID, addUser } = require('../models/users')
+const { allUsers, user, deleteUserByID, addUser, updateeUserByID } = require('../models/users')
 
 
 
@@ -41,11 +41,11 @@ const getUsers = async (req = request, res = response) => {
 const postUser = async (req = request, res = response) => {
 
 
-    const { name, last_nam, email, password,status} = req.body;
+    const { name, last_name, email, password, status, id_rol } = req.body;
 
     try {
 
-        const { rows } = await addUser(name, last_nam, email, password, status);
+        const { rows } = await addUser(name, last_name, email, password, status, id_rol);
 
         return res.status(200).json({
 
@@ -63,10 +63,6 @@ const postUser = async (req = request, res = response) => {
         });
 
     }
-
-
-
-
 
 }
 
@@ -108,7 +104,7 @@ const getUser = async (req = request, res = response) => {
 
         return res.status(500).json({
 
-            message: 'Error querying usee',
+            message: 'Error querying user',
 
         });
     }
@@ -163,11 +159,59 @@ const deleteUser = async (req = request, res = response) => {
 }
 
 
+/** 
+* @param Request request
+* @param Response response
+* @return Response Json
+*/
+
+const updateUser = async (req = request, res = response) => {
+
+
+    const id = req.params.id;
+    const { name, last_name, email, password, status, id_rol} = req.body;
+
+    try {
+
+        const consulta = await updateeUserByID(name, last_name, email, password, status, id_rol, id);
+
+
+        if (consulta.rowCount != 1) {
+
+            return res.status(500).json({
+
+                message: 'User does not exist',
+
+            });
+
+        } else {
+
+            return res.status(200).json({
+
+                message: 'Success update',
+                rol: consulta.rows
+            })
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({
+
+            message: 'Error querying user (update)',
+
+        });
+    }
+
+
+}
+
+
 
 
 module.exports = {
     getUsers,
     getUser,
     deleteUser,
-    postUser
+    postUser,
+    updateUser
 };
