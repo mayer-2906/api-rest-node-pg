@@ -1,32 +1,6 @@
 const client = require('../database/config')
 var uuid = require('uuid');
 
-<<<<<<< HEAD
-//async function User(){
-//
-//    try {
-//        
-//        //await client.connect()
-//
-//        return {
-//            client,
-//            all
-//        };
-//
-//    } catch (error) {
-//        console.log(error);
-//        throw new Error('Error inicializando la base de datos');
-//    }
-//
-//}
-
-async function allUsers(){
-
-    const res = await client.query('SELECT * FROM users')
-
-    //client.end()
-=======
-
 /** 
 * @return Response query
 * @return users
@@ -38,8 +12,6 @@ async function allUsers() {
 
     const res = await client.query('SELECT * FROM users')
 
-   
->>>>>>> 0c87448a830faa4dd72f531992b29836cac5f909
     return {
         count: res.rowCount,
         users: res.rows
