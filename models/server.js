@@ -18,6 +18,7 @@ class Server {
             roles:'/api/roles',
             usersclients: '/api/usersclients',
             patients: '/api/patients'
+
         }
 
         // Middlewares

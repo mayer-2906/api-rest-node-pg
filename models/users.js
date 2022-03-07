@@ -9,9 +9,9 @@ var uuid = require('uuid');
 
 async function allUsers() {
 
-
     const res = await client.query('SELECT * FROM users')
 
+   
     return {
         count: res.rowCount,
         users: res.rows
