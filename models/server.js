@@ -10,6 +10,7 @@ class Server {
 
         // Routes
         this.paths = {
+
             users: '/api/users',
             care_plan: '/api/care_plan',
             clients: '/api/clients',
@@ -17,7 +18,7 @@ class Server {
             users: '/api/users',
             roles:'/api/roles',
             usersclients: '/api/usersclients',
-            patients: 'api/patients'
+            patients: '/api/patients'
 
         }
 

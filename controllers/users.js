@@ -2,8 +2,6 @@ const { response, request } = require('express')
 const { allUsers, user, deleteUserByID, addUser, updateeUserByID } = require('../models/users')
 
 
-
-
 /** 
 * @param Request request
 * @param Response response

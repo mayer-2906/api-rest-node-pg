@@ -1,7 +1,6 @@
 const client = require('../database/config')
 var uuid = require('uuid');
 
-
 /** 
 * @return Response query
 * @return users
@@ -10,9 +9,7 @@ var uuid = require('uuid');
 
 async function allUsers() {
 
-
     const res = await client.query('SELECT * FROM users')
-
    
     return {
         count: res.rowCount,
