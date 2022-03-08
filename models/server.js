@@ -10,11 +10,11 @@ class Server {
 
         // Routes
         this.paths = {
+
             users: '/api/users',
             care_plan: '/api/care_plan',
             clients: '/api/clients',
             appointments: '/api/appointments',
-            users: '/api/users',
             roles:'/api/roles',
             usersclients: '/api/usersclients',
             patients: '/api/patients'
@@ -58,6 +58,7 @@ class Server {
         this.app.use(this.paths.roles, require('../routes/roles'))
         this.app.use(this.paths.usersclients, require('../routes/usersclients'))
         this.app.use(this.paths.patients, require('../routes/patients_routes'))
+
     }
 
     listen(){

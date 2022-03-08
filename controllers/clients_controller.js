@@ -1,6 +1,6 @@
 const { response, request } = require('express')
 
-const {get_clients, get_client, set_Client, update_Client, delete_Client }    = require('../models/clients_model')
+const {get_clients, get_client, set_Client, update_Client, delete_Client }   = require('../models/clients_model')
 
 const getClients = async(req = request, res = response) => {
     

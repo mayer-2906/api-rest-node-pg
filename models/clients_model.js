@@ -13,7 +13,7 @@ const get_clients = async () => {
 
 const get_client = async (id) => {
 
-  const res = await client.query(`SELECT * FROM clientes WHERE id=${id}`)
+  const res = await client.query('SELECT * FROM clientes WHERE id=$1', [id])
 
     return {
         count: res.rowCount,
@@ -26,7 +26,7 @@ const set_Client = async (params, status = true) => {
 
   try{
     
-    const res = await client.query(`INSERT INTO clientes ( name , identification, city, country, address, status) VALUES ('${name}', '${identification}', '${city}', '${country}', '${address}', '${status}') RETURNING *`)
+    const res = await client.query('INSERT INTO clientes ( name , identification, city, country, address, status) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *', [name, identification, city, country, address, status])
     return{
         count: res.rowCount,
         clients: res.rows
@@ -47,7 +47,7 @@ const update_Client = async (id, name, city, country, address, status) => {
 
   try{
     
-    const res = await client.query(`UPDATE clientes SET name='${name}', city='${city}', country='${country}', address='${address}', status='${status}' WHERE id=${id} RETURNING *`)
+    const res = await client.query('UPDATE clientes SET name=$2, city=$3, country=$4, address=$5, status=$6 WHERE id=$1 RETURNING *',[id, name, city, country, address, status])
 
     return{
         count: res.rowCount,
@@ -69,7 +69,7 @@ const delete_Client = async (id) => {
 
   try{
     
-    const res = await client.query(`DELETE FROM clientes WHERE id=${id} RETURNING *`)
+    const res = await client.query('DELETE FROM clientes WHERE id=$1 RETURNING *', [id])
     console.log(`soy la respuesta de la query: ${res}`);
     return{
         count: res.rowCount,

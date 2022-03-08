@@ -17,7 +17,7 @@ const setCarePlan = async (name, status=true) => {
 
   try{
     
-    const res = await client.query(`INSERT INTO care_plan ( name , date, status) VALUES ('${name}', '${date}', '${status}') RETURNING *`)
+    const res = await client.query('INSERT INTO care_plan ( name , date, status) VALUES ($1, $2, $3) RETURNING *', [name, date, status])
     console.log(`soy la respuesta: ${res}`);
     return{
         count: res.rowCount,
@@ -39,7 +39,7 @@ const updateCare_Plan = async (id, name, date, status) => {
 
   try{
     
-    const res = await client.query(`UPDATE care_plan SET name='${name}', date='${date}', status='${status}' WHERE id=${id} RETURNING *`)
+    const res = await client.query('UPDATE care_plan SET name=$2, date=$3, status=$4 WHERE id=$1 RETURNING *', [id, name, date, status])
     console.log(`soy la respuesta: ${res}`);
     return{
         count: res.rowCount,
@@ -61,7 +61,7 @@ const deleteCare_Plan = async (id) => {
 
   try{
     
-    const res = await client.query(`DELETE FROM care_plan WHERE id=${id} RETURNING *`)
+    const res = await client.query('DELETE FROM care_plan WHERE id=$1 RETURNING *', [id])
     console.log(`soy la respuesta: ${res}`);
     return{
         count: res.rowCount,

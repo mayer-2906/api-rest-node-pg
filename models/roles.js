@@ -1,6 +1,4 @@
-
 const client = require('../database/config');
-
 
 /** 
 * @return Response query
