@@ -1,11 +1,12 @@
-const express      = require('express');
+const express = require('express');
 const client = require('../database/config')
+const db = require('../database/db')
 
 
 class Server {
 
-    constructor(){
-        this.app  = express();
+    constructor() {
+        this.app = express();
         this.port = 9000;
 
         // Routes
@@ -15,9 +16,10 @@ class Server {
             care_plan: '/api/care_plan',
             clients: '/api/clients',
             appointments: '/api/appointments',
-            roles:'/api/roles',
+            roles: '/api/roles',
             usersclients: '/api/usersclients',
-            patients: '/api/patients'
+            patients: '/api/patients',
+            pacientes: '/api/pacientes',
 
         }
 
@@ -27,17 +29,22 @@ class Server {
         //inicializamos la base de datos
         this.dbConection();
 
+
+
         //App Routes
         this.routes();
     }
 
-    middlewares(){
+    middlewares() {
         // Lectura y parseo del body
         this.app.use(express.json());
-        this.app.use(express.urlencoded({extended:  false}));
+        this.app.use(express.urlencoded({ extended: false }));
 
     }
 
+
+    /* Conexion BD Normal
+    
     async dbConection (){
 
         try{            
@@ -48,8 +55,25 @@ class Server {
         }
         
     }
+    
+    
+    
+    */
 
-    routes(){
+    async dbConection() {
+
+        try {
+            await db.authenticate();
+            console.log('Connection DB successfully.');
+        } catch (error) {
+            console.error('Bad DB connection:', error);
+        }
+    }
+
+
+
+
+    routes() {
 
         this.app.use(this.paths.users, require('../routes/users'))
         this.app.use(this.paths.care_plan, require('../routes/care_plan_routes'))
@@ -58,10 +82,14 @@ class Server {
         this.app.use(this.paths.roles, require('../routes/roles'))
         this.app.use(this.paths.usersclients, require('../routes/usersclients'))
         this.app.use(this.paths.patients, require('../routes/patients_routes'))
+        this.app.use(this.paths.pacientes, require('../routes/pacientes'))
+
+        
+        
 
     }
 
-    listen(){
+    listen() {
         this.app.listen(this.port, () => {
             console.log(`Server up in: ${this.port} port`)
         })
