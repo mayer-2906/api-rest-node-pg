@@ -1,16 +1,16 @@
 
 const { response, request } = require('express')
-const Pacientes = require('../models/ORM/Patient')
+const Pacientes  = require('../models/ORM/Pacientes')
 
 
 
 const getPacientes = async (req = request, res = response) => {
 
-    Pacientes.create({
+    await Pacientes.create({
 
-        id: 1289,
-        user_client_id: 5895,
-        name: 'Mariela',
+        id: 1254,
+        user_client_id: 890,
+        name: 'Marriela',
         last_name: 'Candelo',
         email: 'mcandelo@gmail.com',
         gender: 'Femenino',

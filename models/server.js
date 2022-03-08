@@ -60,10 +60,11 @@ class Server {
     
     */
 
+    //Force false : Hace drop tables
     async dbConection() {
 
         try {
-            await db.authenticate();
+            await db.sync({force : false});
             console.log('Connection DB successfully.');
         } catch (error) {
             console.error('Bad DB connection:', error);
