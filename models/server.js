@@ -1,6 +1,6 @@
 const express = require('express');
 const client = require('../database/config')
-const db = require('../database/db')
+const connection = require('../database/connection')
 
 
 class Server {
@@ -64,7 +64,7 @@ class Server {
     async dbConection() {
 
         try {
-            await db.sync({force : false});
+            await connection.sync({force : false});
             console.log('Connection DB successfully.');
         } catch (error) {
             console.error('Bad DB connection:', error);

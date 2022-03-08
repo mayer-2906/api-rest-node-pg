@@ -16,6 +16,7 @@ const getPacientes = async (req = request, res = response) => {
         gender: 'Femenino',
         app_installed: true,
         status: true
+        
     }).then(pacien => {
 
         res.json(pacien)

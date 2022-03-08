@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
-const db = require('../../database/connection');
+const connection = require('../../database/connection');
 
-class Pacientes extends Model{}
+class Patient extends Model { }
 
 Pacientes.init({
 
@@ -59,20 +59,20 @@ Pacientes.init({
     },
 
 
-
     status: DataTypes.BOOLEAN,
 
 
-},{
+}, {
 
-    sequelize: db,
-    tableName: 'pacientes',
+    sequelize: connection,
+    tableName: 'patient',
 
 
 });
 
 
-module.exports = Pacientes;
+
+module.exports = Patient;
 
 
 
