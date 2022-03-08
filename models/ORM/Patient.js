@@ -3,7 +3,7 @@ const connection = require('../../database/connection');
 
 class Patient extends Model { }
 
-Pacientes.init({
+Patient.init({
 
 
     id: {
@@ -17,21 +17,21 @@ Pacientes.init({
     user_client_id: {
 
         type: DataTypes.BIGINT,
-        allowNull: true
+        allowNull: false
 
     },
 
     name: {
 
         type: DataTypes.STRING(150),
-        allowNull: true
+        allowNull: false
 
     },
 
     last_name: {
 
         type: DataTypes.STRING(150),
-        allowNull: true
+        allowNull: false
 
 
     },
@@ -39,7 +39,7 @@ Pacientes.init({
     email: {
 
         type: DataTypes.STRING(250),
-        allowNull: true
+        allowNull: false
 
     },
 
@@ -47,14 +47,14 @@ Pacientes.init({
 
 
         type: DataTypes.STRING(150),
-        allowNull: true
+        allowNull: false
     },
 
     app_installed: {
 
 
         type: DataTypes.BOOLEAN,
-        allowNull: true
+        allowNull: false
 
     },
 

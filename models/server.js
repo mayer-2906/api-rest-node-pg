@@ -18,9 +18,7 @@ class Server {
             appointments: '/api/appointments',
             roles: '/api/roles',
             usersclients: '/api/usersclients',
-            patients: '/api/patients',
-            pacientes: '/api/pacientes',
-
+            patients: '/api/patients',   
         }
 
         // Middlewares
@@ -82,8 +80,8 @@ class Server {
         this.app.use(this.paths.appointments, require('../routes/appointments_routes'))
         this.app.use(this.paths.roles, require('../routes/roles'))
         this.app.use(this.paths.usersclients, require('../routes/usersclients'))
-        this.app.use(this.paths.patients, require('../routes/patients_routes'))
-        this.app.use(this.paths.pacientes, require('../routes/pacientes'))
+        this.app.use(this.paths.patients, require('../routes/patient'))
+       
 
         
         
