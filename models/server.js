@@ -1,6 +1,6 @@
 const express = require('express');
 const client = require('../database/config')
-const db = require('../database/db')
+const db = require('../database/connection')
 
 
 class Server {
@@ -76,14 +76,14 @@ class Server {
 
     routes() {
 
-        this.app.use(this.paths.users, require('../routes/users'))
-        this.app.use(this.paths.care_plan, require('../routes/care_plan_routes'))
-        this.app.use(this.paths.clients, require('../routes/clients_routes'))
-        this.app.use(this.paths.appointments, require('../routes/appointments_routes'))
-        this.app.use(this.paths.roles, require('../routes/roles'))
-        this.app.use(this.paths.usersclients, require('../routes/usersclients'))
-        this.app.use(this.paths.patients, require('../routes/patients_routes'))
-        this.app.use(this.paths.pacientes, require('../routes/pacientes'))
+        //this.app.use(this.paths.users, require('../routes/users'))
+        this.app.use(this.paths.care_plan, require('../routes/CarePlan'))
+        this.app.use(this.paths.clients, require('../routes/Clients'))
+        this.app.use(this.paths.appointments, require('../routes/Appointment'))
+        //this.app.use(this.paths.roles, require('../routes/roles'))
+        //this.app.use(this.paths.usersclients, require('../routes/usersclients'))
+        //this.app.use(this.paths.patients, require('../routes/patients_routes'))
+        
 
         
         

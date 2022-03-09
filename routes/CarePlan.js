@@ -5,29 +5,31 @@ const { check }  = require('express-validator');
 const { validateFields } = require('../middlewares/validate-fields')
 
 // Controllers
-const { getCarePlans, addCarePlans, updateCarePlan, deleteCarePlan} = require('../controllers/care_plan_controller')
+const { addCarePlan, getCarePlanById, getCarePlans, updateCarePlan, deleteCarePlan} = require('../controllers/CarePlan')
 
 const router = Router();
 
 router.get('/', getCarePlans)
 
-router.post('/set',
+router.get('/:id', getCarePlanById)
+
+router.post('/',
   [    
   check('name', 'El nombre es obligatorio').not().isEmpty(),
   validateFields
   ],
-  addCarePlans
+  addCarePlan
 )
-router.put('/update/:id', 
+router.put('/:id', 
   [
     check('name', 'El nombre es obligatorio').isString(),
-    check('date', 'Debe ser una fecha valida').isDate(),
+    //check('date', 'Debe ser una fecha valida').isDate(),
     check('status', 'El status debe ser un boolean').isBoolean(),
     validateFields
   ],
   updateCarePlan
 );
 
-router.delete('/delete/:id', deleteCarePlan )
+router.delete('/:id', deleteCarePlan )
 
 module.exports = router;

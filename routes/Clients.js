@@ -6,21 +6,21 @@ const { validateFields } = require("../middlewares/validate-fields");
 
 // Controllers
 const {
-  getClient,
-  getClients,
   addClient,
+  getClients,
+  getClientById,
   updateClient,
   deleteClient
-} = require("../controllers/clients_controller");
+} = require("../controllers/Client");
 
 const router = Router();
 
 router.get("/", getClients);
 
-router.get("/:id", getClient);
+router.get("/:id", getClientById);
 
 router.post(
-  "/set",
+  "/",
   [
     check("name", "El nombre es obligatorio").not().isEmpty(),
     check("identification", "La identificación es obligatoria").not().isEmpty(),
@@ -35,7 +35,7 @@ router.post(
 
 
 router.put(
-  "/update/:id",
+  "/:id",
   [
     check("name", "El nombre es obligatorio y maximo de 150 caracteres").exists().isString().isLength({max: 150}).notEmpty(),
     check("identification", "La identificación es obligatoria").not().isEmpty(),
@@ -48,6 +48,6 @@ router.put(
   updateClient
 );
 
-router.delete("/delete/:id", deleteClient);
+router.delete("/:id", deleteClient);
 
 module.exports = router;
