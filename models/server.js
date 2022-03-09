@@ -16,6 +16,7 @@ class Server {
             roles: '/api/roles',
             patients: '/api/patients',
             users: '/api/users',
+            usersClients: '/api/usersclients'
         }
 
         // Middlewares
@@ -74,6 +75,7 @@ class Server {
         this.app.use(this.paths.roles, require('../routes/role'))
         this.app.use(this.paths.patients, require('../routes/patient'))
         this.app.use(this.paths.users, require('../routes/user'))
+        this.app.use(this.paths.usersClients, require('../routes/userClient'))
 
 
 

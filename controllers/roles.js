@@ -2,6 +2,12 @@ const { response, request } = require('express');
 const Role = require('../models/ORM/Role')
 
 
+/** 
+* @param Object body
+* @return Response query
+* @return roles
+*/
+
 
 const postRole = async (req = request, res = response) => {
 
@@ -28,7 +34,12 @@ const postRole = async (req = request, res = response) => {
 
 }
 
-const getRole = async (req = request, res = response) => {
+/** 
+* @return Response query
+* @return roles
+*/
+
+const getRoles = async (req = request, res = response) => {
 
     try {
 
@@ -54,11 +65,17 @@ const getRole = async (req = request, res = response) => {
 
 }
 
+/** 
+* @param Int id  
+* @return Response query
+* @return role
+*/
+
 const getRoleById = async (req = request, res = response) => {
 
     try {
 
-        const {id} = req.params;
+        const { id } = req.params;
 
         const role = await Role.findOne({
 
@@ -68,9 +85,18 @@ const getRoleById = async (req = request, res = response) => {
             }
         })
 
-        res.status(200).json({ data: role })
+        if (role == null) {
 
+            res.status(500).json({
 
+                message: ' Role does not exist'
+
+            })
+        } else {
+
+            res.status(200).json({ data: role })
+
+        }
 
     } catch (error) {
 
@@ -85,6 +111,14 @@ const getRoleById = async (req = request, res = response) => {
 
 }
 
+
+/** 
+* @param Int id  
+* @return Response query
+* @return int countRow
+*/
+
+
 const deleteRole = async (req = request, res = response) => {
 
 
@@ -98,12 +132,25 @@ const deleteRole = async (req = request, res = response) => {
             }
         })
 
-        res.status(200).json({
 
-            message: 'Delete role succefully',
-            count: roleRow
+        if (roleRow == 0) {
 
-        })
+            res.status(500).json({
+
+                message: ' Role does not exist'
+            })
+
+
+        } else {
+
+            res.status(200).json({
+
+                message: 'Delete role succefully',
+                count: roleRow
+
+            })
+
+        }
 
 
     } catch (error) {
@@ -124,6 +171,14 @@ const deleteRole = async (req = request, res = response) => {
 
 }
 
+
+/** 
+* @param Int id 
+* @param Object body 
+* @return Response query
+* @return Int countRow
+*/
+
 const updateRole = async (req = request, res = response) => {
 
     try {
@@ -131,8 +186,9 @@ const updateRole = async (req = request, res = response) => {
         const { id } = req.params;
         const { type, status } = req.body;
 
-        const roleRow = await Role.update({ 
-            type: type, status: status }, { where: { id } })
+        const roleRow = await Role.update({
+            type: type, status: status
+        }, { where: { id } })
 
         if (roleRow == 0) {
 
@@ -170,7 +226,7 @@ const updateRole = async (req = request, res = response) => {
 module.exports = {
 
     postRole,
-    getRole,
+    getRoles,
     getRoleById,
     deleteRole,
     updateRole

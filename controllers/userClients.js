@@ -1,49 +1,52 @@
 const { response, request } = require('express');
-const User = require('../models/ORM/User')
+const UserClient = require('../models/ORM/userClient');
+
 
 /** 
 * @param Object body
 * @return Response query
-* @return user
+* @return userClient 
 */
 
-const postUser = async (req = request, res = response) => {
+const postUserClient = async (req = request, res = response) => {
+
     try {
-        const user = new User(req.body);
-        const data = await user.save();
+        const user_client = new UserClient(req.body);
+        const data = await user_client.save();
 
         res.status(200).json({
 
-            mensaje: 'Add user successfully',
+            mensaje: 'Add user client successfully',
             data: data
         })
 
     } catch (error) {
+
         return res.status(500).json({
 
             message: 'Internal server error',
             description: 'Error in the query',
             error
+
         })
 
     }
 
 
-
 }
-
 
 /** 
 * @return Response query
-* @return user
+* @return userClients
 */
 
-const getUser = async (req = request, res = response) => {
+
+const getUserClient = async (req = request, res = response) => {
 
     try {
 
-        const user = await User.findAll();
-        res.status(200).json({ data: user })
+        const user_client = await UserClient.findAll();
+        res.status(200).json({ data: user_client })
 
 
     } catch (error) {
@@ -58,23 +61,21 @@ const getUser = async (req = request, res = response) => {
 
     }
 
-
-
 }
-
 
 /** 
 * @param Int id  
 * @return Response query
-* @return user
+* @return client
 */
 
-const getUserById = async (req = request, res = response) => {
+const getUserClientById = async (req = request, res = response) => {
+
 
     try {
 
         const { id } = req.params;
-        const data = await User.findOne({
+        const data = await UserClient.findOne({
 
             where: {
 
@@ -82,15 +83,13 @@ const getUserById = async (req = request, res = response) => {
             }
         })
 
-
         if (data == null) {
 
+            res.status(200).json({
 
-            res.status(500).json({
-
-                message: 'user Does not exist'
-
+                message: 'User Client does not exist'
             })
+
 
         } else {
 
@@ -118,18 +117,20 @@ const getUserById = async (req = request, res = response) => {
 
 }
 
+
 /** 
 * @param Int id  
 * @return Response query
 * @return int countRow
 */
 
-const deleteUser = async (req = request, res = response) => {
+
+const deleteUserCient = async (req = request, res = response) => {
 
     try {
 
         const { id } = req.params;
-        const userRow = await User.destroy({
+        const userRow = await UserClient.destroy({
 
             where: { id }
         })
@@ -137,18 +138,20 @@ const deleteUser = async (req = request, res = response) => {
 
         if (userRow == 0) {
 
+
             res.status(500).json({
 
-                message: 'User does not exist'
+                message: 'User Client does not exist'
 
             })
 
         } else {
 
+
             res.status(200).json({
 
 
-                message: 'Delete user succefully',
+                message: 'Delete user client succefully',
                 count: userRow
 
             })
@@ -170,7 +173,6 @@ const deleteUser = async (req = request, res = response) => {
     }
 
 
-
 }
 
 /** 
@@ -180,18 +182,18 @@ const deleteUser = async (req = request, res = response) => {
 * @return Int countRow
 */
 
-const updateUser = async (req = request, res = response) => {
+const updateUserClient = async (req = request, res = response) => {
 
     try {
 
         const { id } = req.params
-        const { name, last_name, email, password, status } = req.body;
-        const userRow = await User.update({
-            name: name,
-            last_name: last_name,
-            email: email,
-            password: password,
-            status: status
+        const { status, user_id, client_id } = req.body;
+        const userRow = await UserClient.update({
+
+            status: status,
+            user_id: user_id,
+            client_id, client_id
+
 
         }, { where: { id } })
 
@@ -200,7 +202,7 @@ const updateUser = async (req = request, res = response) => {
 
             res.status(500).json({
 
-                message: 'User does not exist'
+                message: 'User Client does not exist'
 
             })
 
@@ -208,7 +210,7 @@ const updateUser = async (req = request, res = response) => {
 
             res.status(200).json({
 
-                message: 'Update user succefully',
+                message: 'Update user Client succefully',
                 data: userRow
             })
 
@@ -232,14 +234,13 @@ const updateUser = async (req = request, res = response) => {
 }
 
 
-
 module.exports = {
 
-    postUser,
-    getUser,
-    getUserById,
-    deleteUser,
-    updateUser
 
+    postUserClient,
+    getUserClient,
+    getUserClientById,
+    deleteUserCient,
+    updateUserClient
 
 }

@@ -3,6 +3,12 @@ const { response, request } = require('express');
 const Patient = require('../models/ORM/Patient')
 
 
+/** 
+* @param Object body
+* @return Response query
+* @return patient
+*/
+
 
 const postPatient = async (req = request, res = response) => {
 
@@ -11,7 +17,7 @@ const postPatient = async (req = request, res = response) => {
 
     try {
 
-       const data =  await patient.save();
+        const data = await patient.save();
         res.status(200).json({
             mensaje: 'Add patient successfully',
             data: data
@@ -32,6 +38,11 @@ const postPatient = async (req = request, res = response) => {
 
 
 }
+
+/** 
+* @return Response query
+* @return patients
+*/
 
 
 const getPatient = async (req = request, res = response) => {
@@ -60,6 +71,13 @@ const getPatient = async (req = request, res = response) => {
 }
 
 
+/** 
+* @param Int id  
+* @return Response query
+* @return patient
+*/
+
+
 const getPatientById = async (req = request, res = response) => {
 
 
@@ -72,7 +90,20 @@ const getPatientById = async (req = request, res = response) => {
             }
         })
 
-        res.status(200).json({ patient: patient });
+        if (patient == null) {
+
+            res.status(500).json({
+
+
+                message: 'Patient does not exist'
+
+            })
+
+        } else {
+
+            res.status(200).json({ patient: patient });
+
+        }
 
 
     } catch (error) {
@@ -91,6 +122,13 @@ const getPatientById = async (req = request, res = response) => {
 
 
 }
+
+/** 
+* @param Int id  
+* @return Response query
+* @return int countRow
+*/
+
 
 const deletePatient = async (req = request, res = response) => {
 
@@ -104,10 +142,28 @@ const deletePatient = async (req = request, res = response) => {
             }
         })
 
-        res.status(200).json({
-            message: 'Patient deleted successfully',
-            count: patientRow
-        });
+        if (patientRow == 0) {
+
+            res.status(500).json({
+
+
+                message: 'Patient Does not exist'
+
+            })
+
+
+
+        } else {
+
+
+            res.status(200).json({
+                message: 'Patient deleted successfully',
+                count: patientRow
+            });
+
+        }
+
+
 
 
     } catch (error) {
@@ -126,6 +182,15 @@ const deletePatient = async (req = request, res = response) => {
 
 
 }
+
+
+/** 
+* @param Int id 
+* @param Object body 
+* @return Response query
+* @return Int countRow
+*/
+
 
 const updtatePatient = async (req = request, res = response) => {
 
@@ -157,7 +222,7 @@ const updtatePatient = async (req = request, res = response) => {
             res.status(200).json({
 
                 message: 'Patient update succefully',
-                data: patientRow,
+                data: patientRow
 
 
             })
