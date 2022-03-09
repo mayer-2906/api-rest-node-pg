@@ -1,12 +1,15 @@
+
+require('dotenv').config();
 /*  import sequelize */
 
 const Sequelize = require('sequelize');
+const { process } = require('uniqid');
 
-module.exports = new Sequelize(process.env.NAM_DB, 'muqvkuenrwqqff', 'd7015551ee930119de94596eec604257b7f8220b3d4a1112dbfb7d65c0569d2f', {
+module.exports = new Sequelize('dd37uik0okfu49', process.env.USER_DB, process.env.PWS_DB, {
 
-    host: 'ec2-54-156-110-139.compute-1.amazonaws.com',
-    port: '5432',
-    dialect: 'postgres',
+    host: process.env.HST_DB,
+    port: process.env.PORT_DB,
+    dialect: process.env.DIALECT_DB,
     pool: {
         max: 5,
         min: 0,

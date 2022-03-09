@@ -1,10 +1,5 @@
 const express = require('express');
-const client = require('../database/config')
-<<<<<<< HEAD
-const db = require('../database/connection')
-=======
 const connection = require('../database/connection')
->>>>>>> 9e75d74c0b91097f79d34ffe76eab6645f4c8d19
 
 
 class Server {
@@ -20,7 +15,11 @@ class Server {
             roles: '/api/roles',
             patients: '/api/patients',
             users: '/api/users',
-            usersClients: '/api/usersclients'
+            usersClients: '/api/usersclients',
+            care_plan:'/api/care_plan',
+            clients:'/api/clients',
+            appointments:'/api/appointments'
+
         }
 
         // Middlewares
@@ -75,7 +74,6 @@ class Server {
 
 
     routes() {
-
         
         this.app.use(this.paths.care_plan, require('../routes/CarePlan'))
         this.app.use(this.paths.clients, require('../routes/Clients'))
