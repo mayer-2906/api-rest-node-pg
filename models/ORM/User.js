@@ -1,23 +1,17 @@
 const { DataTypes, Model } = require('sequelize');
-const connection = require('../../database/connection');
+const connection = require('../../database/connection')
 
-class Patient extends Model { }
 
-Patient.init({
 
+class User extends Model { }
+
+User.init({
 
     id: {
 
         type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true
-
-    },
-
-    user_client_id: {
-
-        type: DataTypes.BIGINT,
-        allowNull: false
 
     },
 
@@ -32,47 +26,35 @@ Patient.init({
 
         type: DataTypes.STRING(150),
         allowNull: false
-
-
     },
 
     email: {
+        type: DataTypes.STRING(250),
+        allowNull: false,
+        unique: true
+    },
+    password: {
 
         type: DataTypes.STRING(250),
         allowNull: false
 
     },
 
-    gender: {
+    api_token: {
 
-
-        type: DataTypes.STRING(150),
-        allowNull: false
-    },
-
-    app_installed: {
-
-
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING(250),
         allowNull: false
 
     },
-
 
     status: DataTypes.BOOLEAN(true),
-
 
 }, {
 
     sequelize: connection,
-    tableName: 'patient',
+    tableName: 'user'
 
 
 });
 
-
-
-module.exports = Patient;
-
-
-
+module.exports = User;

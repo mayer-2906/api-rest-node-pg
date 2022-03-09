@@ -12,13 +12,10 @@ class Server {
         // Routes
         this.paths = {
 
-            users: '/api/users',
-            care_plan: '/api/care_plan',
-            clients: '/api/clients',
-            appointments: '/api/appointments',
+            
             roles: '/api/roles',
-            usersclients: '/api/usersclients',
-            patients: '/api/patients',   
+            patients: '/api/patients',
+            users: '/api/users',
         }
 
         // Middlewares
@@ -62,7 +59,7 @@ class Server {
     async dbConection() {
 
         try {
-            await connection.sync({force : false});
+            await connection.sync({ force: false });
             console.log('Connection DB successfully.');
         } catch (error) {
             console.error('Bad DB connection:', error);
@@ -74,17 +71,13 @@ class Server {
 
     routes() {
 
-        this.app.use(this.paths.users, require('../routes/users'))
-        this.app.use(this.paths.care_plan, require('../routes/care_plan_routes'))
-        this.app.use(this.paths.clients, require('../routes/clients_routes'))
-        this.app.use(this.paths.appointments, require('../routes/appointments_routes'))
-        this.app.use(this.paths.roles, require('../routes/roles'))
-        this.app.use(this.paths.usersclients, require('../routes/usersclients'))
+        this.app.use(this.paths.roles, require('../routes/role'))
         this.app.use(this.paths.patients, require('../routes/patient'))
-       
+        this.app.use(this.paths.users, require('../routes/user'))
 
-        
-        
+
+
+
 
     }
 

@@ -1,95 +1,154 @@
 const { response, request } = require('express');
-const { allRoles, addRoles, RolById, deleteRolByID, updateeRolByID } = require('../models/roles')
+const Role = require('../models/ORM/Role')
 
 
 
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const getRoles = async (req = request, res = response) => {
+const postRole = async (req = request, res = response) => {
 
     try {
 
-        const { count, users } = await allRoles();
-
-        return res.json({
-            count,
-            users
-        })
+        const role = new Role(req.body);
+        const data = await role.save();
+        res.status(200).json({
+            mensaje: 'Add role successfully',
+            data: data
+        });
 
     } catch (error) {
-        console.log(error);
+        return res.status(500).json({
 
-        return res.json({
+            message: 'Internal server error',
+            description: 'Error in the query',
             error
-        }, 500)
+        })
+
+
     }
+
 
 }
 
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const postRoles = async (req = request, res = response) => {
-
-    const { type, status } = req.body;
+const getRole = async (req = request, res = response) => {
 
     try {
 
-        const { rows } = await addRoles(type, status);
 
-        return res.status(200).json({
+        const role = await Role.findAll();
+        res.status(200).json({ data: role });
 
-            message: 'Rol create succesfully',
-            rol: rows
+
+    } catch (error) {
+
+        return res.status(500).json({
+
+            message: 'Internal server error',
+            description: 'Error in the query',
+            error
+        })
+
+
+
+    }
+
+
+
+}
+
+const getRoleById = async (req = request, res = response) => {
+
+    try {
+
+        const {id} = req.params;
+
+        const role = await Role.findOne({
+
+            where: {
+
+                id
+            }
+        })
+
+        res.status(200).json({ data: role })
+
+
+
+    } catch (error) {
+
+
+        return res.estatus(500).json({
+            message: 'Internal server error',
+            description: 'Error in the query',
+            error
+        })
+    }
+
+
+}
+
+const deleteRole = async (req = request, res = response) => {
+
+
+    try {
+
+        const { id } = req.params;
+        const roleRow = await Role.destroy({
+            where: {
+
+                id
+            }
+        })
+
+        res.status(200).json({
+
+            message: 'Delete role succefully',
+            count: roleRow
 
         })
 
 
     } catch (error) {
 
-        return res.status(500).json({
-            message: 'Failed to add role',
+        res.status(500).json({
 
-        });
+
+            mensaje: 'Internal server error',
+            description: 'Error in the query',
+            error
+
+
+        })
 
     }
 
+
+
 }
 
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const getRol = async (req = request, res = response) => {
-
-    const id = req.params.id;
+const updateRole = async (req = request, res = response) => {
 
     try {
 
-        const consulta = await RolById(id);
+        const { id } = req.params;
+        const { type, status } = req.body;
 
-        if (consulta.rowCount != 1) {
+        const roleRow = await Role.update({ 
+            type: type, status: status }, { where: { id } })
 
-            return res.status(500).json({
+        if (roleRow == 0) {
 
-                message: 'Role does not exist',
+            res.status(500).json({
 
-            });
+                message: 'Role does not exist'
+
+            })
 
         } else {
 
-            return res.status(200).json({
 
-                role: consulta.rows
+            res.status(200).json({
+
+                message: 'Update role succefully',
+                data: roleRow
 
             })
 
@@ -97,118 +156,24 @@ const getRol = async (req = request, res = response) => {
 
     } catch (error) {
 
-        return res.status(500).json({
+        res.status(500).json({
 
-            message: 'Error querying role',
+            mensaje: 'Internal server error',
+            description: 'Error in the query',
+            error
 
-        });
-    }
-
-}
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const deleteRol = async (req = request, res = response) => {
-
-    const id = req.params.id;
-
-    try {
-
-        const consulta = await deleteRolByID(id);
-
-        if (consulta.rowCount != 1) {
-
-            return res.status(500).json({
-
-                message: 'Role does not exist',
-
-            });
-
-        } else {
-
-
-            return res.status(200).json({
-
-
-                message: 'Success deleting',
-
-            })
-
-        }
-
-    } catch (error) {
-
-        return res.status(500).json({
-
-            message: 'Error querying role',
-
-        });
-    }
-
-}
-
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const updateRol = async (req = request, res = response) => {
-   
-    const id = req.params.id;
-    const { type, status } = req.body;
-      
-
-    try {
-
-       
-        const consulta = await updateeRolByID(id, type, status);
-        
-
-        if (consulta.rowCount != 1) {
-
-            return res.status(500).json({
-
-                message: 'Role does not exist',
-
-
-            });
-
-        } else {
-
-
-            return res.status(200).json({
-
-
-                message: 'Success update',
-                rol: consulta.rows
-
-            })
-
-        }
-
-    } catch (error) {
-
-        return res.status(500).json({
-
-            message: 'Error querying role (update)',
-
-        });
+        })
     }
 
 
 }
-
-
 module.exports = {
-    getRoles,
-    postRoles,
-    getRol,
-    deleteRol,
-    updateRol
-};
+
+    postRole,
+    getRole,
+    getRoleById,
+    deleteRole,
+    updateRole
+
+
+}

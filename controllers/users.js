@@ -1,215 +1,186 @@
-const { response, request } = require('express')
-const { allUsers, user, deleteUserByID, addUser, updateeUserByID } = require('../models/users')
+const { response, request } = require('express');
 
 
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
-const getUsers = async (req = request, res = response) => {
-
-    try {
-
-        const { count, users } = await allUsers();
-
-        return res.json({
-            count,
-            users
-        })
-
-    } catch (error) {
-        console.log(error);
-
-        return res.json({
-            error
-        }, 500)
-    }
-
-}
-
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
+const User = require('../models/ORM/User')
 
 const postUser = async (req = request, res = response) => {
-
-
-    const { name, last_name, email, password, status, id_rol } = req.body;
-
     try {
+        const user = new User(req.body);
+        const data = await user.save();
 
-        const { rows } = await addUser(name, last_name, email, password, status, id_rol);
+        res.status(200).json({
 
-        return res.status(200).json({
-
-            message: 'User create succesfully',
-            rol: rows
-
+            mensaje: 'Add user successfully',
+            data: data
         })
 
-
     } catch (error) {
-
         return res.status(500).json({
-            message: 'Failed to add role',
 
-        });
+            message: 'Internal server error',
+            description: 'Error in the query',
+            error
+        })
 
     }
 
+
+
 }
-
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
 
 const getUser = async (req = request, res = response) => {
 
-    const id = req.params.id;
+    try {
+
+        const user = await User.findAll();
+        res.status(200).json({ data: user })
+
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            message: 'Internal server error',
+            description: 'Error in the query',
+            error
+
+        })
+
+    }
+
+
+
+}
+
+const getUserById = async (req = request, res = response) => {
 
     try {
 
-        const consulta = await user(id);
+        const { id } = req.params;
+        const data = await User.findOne({
 
-        if (consulta.rowCount != 1) {
+            where: {
 
-            return res.status(500).json({
+                id
+            }
+        })
 
-                message: 'User does not exist',
+        res.status(200).json({
 
-            });
-
-        } else {
-
-            return res.status(200).json({
-
-                role: consulta.rows
-
-            })
-
-        }
+            daa: data
+        })
 
     } catch (error) {
 
         return res.status(500).json({
 
-            message: 'Error querying user',
+            message: 'Internal server error',
+            description: 'Error in the query',
+            error
 
-        });
+
+        })
+
     }
 
 }
-
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
-
 
 const deleteUser = async (req = request, res = response) => {
 
-
-    const id = req.params.id;
-
     try {
 
-        const consulta = await deleteUserByID(id);
+        const { id } = req.params;
+        const userRow = await User.destroy({
 
-        if (consulta.rowCount != 1) {
+            where: { id }
+        })
 
-            return res.status(500).json({
+        res.status(200).json({
 
-                message: 'User does not exist',
 
-            });
+            message: 'Delete user succefully',
+            count: userRow
 
-        } else {
+        })
 
-            return res.status(200).json({
 
-                message: 'Success deleting',
-
-            })
-
-        }
 
     } catch (error) {
 
         return res.status(500).json({
 
-            message: 'Error querying user',
+            mensaje: 'Internal server error',
+            description: 'Error in the query',
+            error
 
-        });
+        })
+
     }
 
 
+
 }
-
-
-/** 
-* @param Request request
-* @param Response response
-* @return Response Json
-*/
 
 const updateUser = async (req = request, res = response) => {
 
-
-    const id = req.params.id;
-    const { name, last_name, email, password, status, id_rol} = req.body;
-
     try {
 
-        const consulta = await updateeUserByID(name, last_name, email, password, status, id_rol, id);
+        const { id } = req.params
+        const { name, last_name, email, password, status } = req.body;
+        const userRow = await User.update({
+            name: name,
+            last_name: last_name,
+            email: email,
+            password: password,
+            status: status
+
+        }, { where: { id } })
 
 
-        if (consulta.rowCount != 1) {
+        if (userRow == 0) {
 
-            return res.status(500).json({
+            res.status(500).json({
 
-                message: 'User does not exist',
+                message: 'User does not exist'
 
-            });
+            })
 
         } else {
 
-            return res.status(200).json({
+            res.status(200).json({
 
-                message: 'Success update',
-                rol: consulta.rows
+                message: 'Update user succefully',
+                data: userRow
             })
+
         }
+
 
     } catch (error) {
 
-        return res.status(500).json({
+        res.status(500).json({
 
-            message: 'Error querying user (update)',
+            mensaje: 'Internal server error',
+            description: 'Error in the query',
+            error
 
-        });
+        })
+
+
     }
 
 
 }
-
 
 
 
 module.exports = {
-    getUsers,
-    getUser,
-    deleteUser,
+
     postUser,
+    getUser,
+    getUserById,
+    deleteUser,
     updateUser
-};
+
+
+}
