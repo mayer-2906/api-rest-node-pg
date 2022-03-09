@@ -1,6 +1,10 @@
 const express = require('express');
 const client = require('../database/config')
+<<<<<<< HEAD
 const db = require('../database/connection')
+=======
+const connection = require('../database/connection')
+>>>>>>> 9e75d74c0b91097f79d34ffe76eab6645f4c8d19
 
 
 class Server {
@@ -12,15 +16,11 @@ class Server {
         // Routes
         this.paths = {
 
-            users: '/api/users',
-            care_plan: '/api/care_plan',
-            clients: '/api/clients',
-            appointments: '/api/appointments',
+            
             roles: '/api/roles',
-            usersclients: '/api/usersclients',
             patients: '/api/patients',
-            pacientes: '/api/pacientes',
-
+            users: '/api/users',
+            usersClients: '/api/usersclients'
         }
 
         // Middlewares
@@ -64,7 +64,7 @@ class Server {
     async dbConection() {
 
         try {
-            await db.sync({force : false});
+            await connection.sync({ force: false });
             console.log('Connection DB successfully.');
         } catch (error) {
             console.error('Bad DB connection:', error);
@@ -76,18 +76,14 @@ class Server {
 
     routes() {
 
-        //this.app.use(this.paths.users, require('../routes/users'))
+        
         this.app.use(this.paths.care_plan, require('../routes/CarePlan'))
         this.app.use(this.paths.clients, require('../routes/Clients'))
-        this.app.use(this.paths.appointments, require('../routes/Appointment'))
-        //this.app.use(this.paths.roles, require('../routes/roles'))
-        //this.app.use(this.paths.usersclients, require('../routes/usersclients'))
-        //this.app.use(this.paths.patients, require('../routes/patients_routes'))
-        
-
-        
-        
-
+        this.app.use(this.paths.appointments, require('../routes/Appointment')) 
+        this.app.use(this.paths.roles, require('../routes/role'))
+        this.app.use(this.paths.patients, require('../routes/patient'))
+        this.app.use(this.paths.users, require('../routes/user'))
+        this.app.use(this.paths.usersClients, require('../routes/userClient'))
     }
 
     listen() {

@@ -5,7 +5,11 @@ const { check }  = require('express-validator');
 const { validateFields } = require('../middlewares/validate-fields')
 
 // Controllers
-const { addCarePlan, getCarePlanById, getCarePlans, updateCarePlan, deleteCarePlan} = require('../controllers/CarePlan')
+const { addCarePlan, 
+        getCarePlanById,
+        getCarePlans,
+        updateCarePlan,
+        deleteCarePlan} = require('../controllers/CarePlan')
 
 const router = Router();
 
